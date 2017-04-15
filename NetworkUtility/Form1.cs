@@ -17,9 +17,16 @@ namespace NetworkUtility
             InitializeComponent();
         }
 
-        private void saveFileDialog1_FileOk(object sender, CancelEventArgs e)
+        private void налаштуванняToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            panelMain.Controls.Add(UserControl1.Instance);
+            UserControl1.Instance.BringToFront();
+            UserControl1.Instance.Dock = DockStyle.Fill;
+        }
 
+        private void FormMain_SizeChanged(object sender, EventArgs e)
+        {
+            //panelMain.Size = FormMain.Size
         }
     }
 }
