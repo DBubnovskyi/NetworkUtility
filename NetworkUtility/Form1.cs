@@ -15,13 +15,8 @@ namespace NetworkUtility
         public FormMain()
         {
             InitializeComponent();
-        }
-
-        private void налаштуванняToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            panelMain.Controls.Add(UserControl1.Instance);
-            UserControl1.Instance.BringToFront();
-            UserControl1.Instance.Dock = DockStyle.Fill;
+            panelMain.Controls.Add(UcGeoLocation.Sample);
+           // UcGeoLocation.Sample.BringToFront();
         }
 
         private void FormMain_SizeChanged(object sender, EventArgs e)

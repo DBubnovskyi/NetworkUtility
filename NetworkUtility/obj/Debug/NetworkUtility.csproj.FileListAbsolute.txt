@@ -7,4 +7,4 @@ E:\study\programming\C# project\NetworkUtility\NetworkUtility\obj\Debug\NetworkU
 E:\study\programming\C# project\NetworkUtility\NetworkUtility\obj\Debug\NetworkUtility.exe
 E:\study\programming\C# project\NetworkUtility\NetworkUtility\obj\Debug\NetworkUtility.pdb
 E:\study\programming\C# project\NetworkUtility\NetworkUtility\obj\Debug\NetworkUtility.FormMain.resources
-E:\study\programming\C# project\NetworkUtility\NetworkUtility\obj\Debug\NetworkUtility.UserControl1.resources
+E:\study\programming\C# project\NetworkUtility\NetworkUtility\obj\Debug\NetworkUtility.ucGeoLocation.resources
