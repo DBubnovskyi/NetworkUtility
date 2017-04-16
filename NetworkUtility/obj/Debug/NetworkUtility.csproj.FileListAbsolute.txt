@@ -1,1 +1,10 @@
 E:\study\programming\C# project\NetworkUtility\NetworkUtility\bin\Debug\NetworkUtility.exe.config
+E:\study\programming\C# project\NetworkUtility\NetworkUtility\bin\Debug\NetworkUtility.exe
+E:\study\programming\C# project\NetworkUtility\NetworkUtility\bin\Debug\NetworkUtility.pdb
+E:\study\programming\C# project\NetworkUtility\NetworkUtility\obj\Debug\NetworkUtility.csprojResolveAssemblyReference.cache
+E:\study\programming\C# project\NetworkUtility\NetworkUtility\obj\Debug\NetworkUtility.Properties.Resources.resources
+E:\study\programming\C# project\NetworkUtility\NetworkUtility\obj\Debug\NetworkUtility.csproj.GenerateResource.Cache
+E:\study\programming\C# project\NetworkUtility\NetworkUtility\obj\Debug\NetworkUtility.exe
+E:\study\programming\C# project\NetworkUtility\NetworkUtility\obj\Debug\NetworkUtility.pdb
+E:\study\programming\C# project\NetworkUtility\NetworkUtility\obj\Debug\NetworkUtility.FormMain.resources
+E:\study\programming\C# project\NetworkUtility\NetworkUtility\obj\Debug\NetworkUtility.ucGeoLocation.resources

@@ -10,11 +10,18 @@ using System.Windows.Forms;
 
 namespace NetworkUtility
 {
-    public partial class Form1 : Form
+    public partial class FormMain : Form
     {
-        public Form1()
+        public FormMain()
         {
             InitializeComponent();
+            panelMain.Controls.Add(UcGeoLocation.Sample);
+           // UcGeoLocation.Sample.BringToFront();
+        }
+
+        private void FormMain_SizeChanged(object sender, EventArgs e)
+        {
+            //panelMain.Size = FormMain.Size
         }
     }
 }
