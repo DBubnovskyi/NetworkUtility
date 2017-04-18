@@ -16,7 +16,7 @@ namespace NetworkUtility
         {
             InitializeComponent();
             panelMain.Controls.Add(UcGeoLocation.Sample);
-           // UcGeoLocation.Sample.BringToFront();
+            UcGeoLocation.Sample.BringToFront();
         }
 
         private void FormMain_SizeChanged(object sender, EventArgs e)

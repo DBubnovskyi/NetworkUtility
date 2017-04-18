@@ -31,12 +31,11 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.ToolStripMenuItemFile = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolStripMenuItemHelp = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolStripMenuItemSubNetScaner = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItemGeoLocation = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItemSubNetScaner = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItemHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.panelMain = new System.Windows.Forms.Panel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.menuStrip.SuspendLayout();
             this.panelMain.SuspendLayout();
             this.SuspendLayout();
@@ -61,11 +60,11 @@
             this.ToolStripMenuItemFile.Size = new System.Drawing.Size(48, 20);
             this.ToolStripMenuItemFile.Text = "Файл";
             // 
-            // ToolStripMenuItemHelp
+            // ToolStripMenuItemGeoLocation
             // 
-            this.ToolStripMenuItemHelp.Name = "ToolStripMenuItemHelp";
-            this.ToolStripMenuItemHelp.Size = new System.Drawing.Size(75, 20);
-            this.ToolStripMenuItemHelp.Text = "Допомога";
+            this.ToolStripMenuItemGeoLocation.Name = "ToolStripMenuItemGeoLocation";
+            this.ToolStripMenuItemGeoLocation.Size = new System.Drawing.Size(80, 20);
+            this.ToolStripMenuItemGeoLocation.Text = "Геолокація";
             // 
             // ToolStripMenuItemSubNetScaner
             // 
@@ -73,16 +72,15 @@
             this.ToolStripMenuItemSubNetScaner.Size = new System.Drawing.Size(118, 20);
             this.ToolStripMenuItemSubNetScaner.Text = "Сканер підмережі";
             // 
-            // ToolStripMenuItemGeoLocation
+            // ToolStripMenuItemHelp
             // 
-            this.ToolStripMenuItemGeoLocation.Name = "ToolStripMenuItemGeoLocation";
-            this.ToolStripMenuItemGeoLocation.Size = new System.Drawing.Size(80, 20);
-            this.ToolStripMenuItemGeoLocation.Text = "Геолокація";
+            this.ToolStripMenuItemHelp.Name = "ToolStripMenuItemHelp";
+            this.ToolStripMenuItemHelp.Size = new System.Drawing.Size(75, 20);
+            this.ToolStripMenuItemHelp.Text = "Допомога";
             // 
             // panelMain
             // 
             this.panelMain.AutoSize = true;
-            this.panelMain.Controls.Add(this.radioButton1);
             this.panelMain.Controls.Add(this.statusStrip1);
             this.panelMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelMain.Location = new System.Drawing.Point(0, 24);
@@ -98,22 +96,12 @@
             this.statusStrip1.TabIndex = 0;
             this.statusStrip1.Text = "statusStrip1";
             // 
-            // radioButton1
-            // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(711, 505);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(85, 17);
-            this.radioButton1.TabIndex = 1;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "radioButton1";
-            this.radioButton1.UseVisualStyleBackColor = true;
-            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
+            this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(829, 600);
             this.Controls.Add(this.panelMain);
             this.Controls.Add(this.menuStrip);
@@ -146,7 +134,6 @@
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemSubNetScaner;
         private System.Windows.Forms.Panel panelMain;
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.RadioButton radioButton1;
     }
 }
 
