@@ -58,15 +58,5 @@ namespace NetworkUtility
                 listView1.Items[0].SubItems[6].BackColor = Color.LightCoral;
             }
         }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            listView1.BorderStyle = 0;
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            chart1.Visible = !chart1.Visible;
-        }
     }
 }
