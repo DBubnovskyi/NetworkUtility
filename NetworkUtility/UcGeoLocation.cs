@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Net.NetworkInformation;
 using System.Windows.Forms;
 
 namespace NetworkUtility
@@ -24,6 +25,19 @@ namespace NetworkUtility
         public UcGeoLocation()
         {
             InitializeComponent();
+
+            Ping server = new Ping();
+            PingReply serverReply = server.Send("8.8.8.8");
+            if (serverReply?.Status == IPStatus.Success)
+            {
+
+            }
+
+            serverReply = server.Send("tools.keycdn.com");
+            if (serverReply?.Status == IPStatus.Success)
+            {
+                
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)

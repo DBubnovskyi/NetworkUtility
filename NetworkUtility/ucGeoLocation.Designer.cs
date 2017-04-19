@@ -47,12 +47,12 @@
             this.panel6 = new System.Windows.Forms.Panel();
             this.textBoxLog = new System.Windows.Forms.TextBox();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.labelUpl = new System.Windows.Forms.Label();
             this.timer = new System.Windows.Forms.Timer(this.components);
-            this.label1 = new System.Windows.Forms.Label();
             color = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -192,9 +192,9 @@
             // 
             this.panel6.Controls.Add(this.textBoxLog);
             this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel6.Location = new System.Drawing.Point(0, 305);
+            this.panel6.Location = new System.Drawing.Point(0, 428);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(400, 404);
+            this.panel6.Size = new System.Drawing.Size(400, 281);
             this.panel6.TabIndex = 5;
             // 
             // textBoxLog
@@ -205,35 +205,47 @@
             this.textBoxLog.Multiline = true;
             this.textBoxLog.Name = "textBoxLog";
             this.textBoxLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxLog.Size = new System.Drawing.Size(400, 404);
+            this.textBoxLog.Size = new System.Drawing.Size(400, 281);
             this.textBoxLog.TabIndex = 0;
             // 
             // panel5
             // 
             this.panel5.BackColor = System.Drawing.Color.White;
+            this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel5.Controls.Add(this.label1);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel5.Location = new System.Drawing.Point(0, 278);
+            this.panel5.Location = new System.Drawing.Point(0, 395);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(400, 27);
+            this.panel5.Size = new System.Drawing.Size(400, 33);
             this.panel5.TabIndex = 4;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 13);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(82, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Log викрнання";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // panel4
             // 
             this.panel4.BackColor = System.Drawing.Color.White;
+            this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel4.Controls.Add(this.textBox1);
             this.panel4.Controls.Add(this.button1);
             this.panel4.Controls.Add(this.labelUpl);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel4.Location = new System.Drawing.Point(0, 0);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(400, 278);
+            this.panel4.Size = new System.Drawing.Size(400, 395);
             this.panel4.TabIndex = 3;
             // 
             // textBox1
             // 
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox1.Location = new System.Drawing.Point(45, 16);
+            this.textBox1.Location = new System.Drawing.Point(42, 16);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(260, 20);
             this.textBox1.TabIndex = 1;
@@ -245,7 +257,7 @@
             this.button1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.DarkSeaGreen;
             this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.SkyBlue;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Location = new System.Drawing.Point(315, 16);
+            this.button1.Location = new System.Drawing.Point(312, 16);
             this.button1.Margin = new System.Windows.Forms.Padding(0);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 20);
@@ -260,7 +272,7 @@
             this.labelUpl.AutoSize = true;
             this.labelUpl.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelUpl.ForeColor = System.Drawing.Color.Black;
-            this.labelUpl.Location = new System.Drawing.Point(13, 19);
+            this.labelUpl.Location = new System.Drawing.Point(10, 19);
             this.labelUpl.Name = "labelUpl";
             this.labelUpl.Size = new System.Drawing.Size(27, 14);
             this.labelUpl.TabIndex = 0;
@@ -271,16 +283,6 @@
             // 
             this.timer.Interval = 1000;
             this.timer.Tick += new System.EventHandler(this.timer_Tick);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(4, 8);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(82, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Log викрнання";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // UcGeoLocation
             // 
