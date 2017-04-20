@@ -8,3 +8,5 @@ E:\study\programming\C# project\NetworkUtility\NetworkUtility\obj\Debug\NetworkU
 E:\study\programming\C# project\NetworkUtility\NetworkUtility\obj\Debug\NetworkUtility.pdb
 E:\study\programming\C# project\NetworkUtility\NetworkUtility\obj\Debug\NetworkUtility.FormMain.resources
 E:\study\programming\C# project\NetworkUtility\NetworkUtility\obj\Debug\NetworkUtility.ucGeoLocation.resources
+E:\study\programming\C# project\NetworkUtility\NetworkUtility\bin\Debug\Newtonsoft.Json.dll
+E:\study\programming\C# project\NetworkUtility\NetworkUtility\bin\Debug\Newtonsoft.Json.xml
