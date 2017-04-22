@@ -35,7 +35,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.webBrowser = new System.Windows.Forms.WebBrowser();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.chartPing = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.listViewIpPing = new System.Windows.Forms.ListView();
             this.CheckBox = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.IpAddresValue = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -47,6 +47,7 @@
             this.panel6 = new System.Windows.Forms.Panel();
             this.textBoxLog = new System.Windows.Forms.TextBox();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.labelUrlErr = new System.Windows.Forms.Label();
             this.buttonGeoTest = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.buttonDnsGoogleTest = new System.Windows.Forms.Button();
@@ -56,11 +57,10 @@
             this.buttonSearch = new System.Windows.Forms.Button();
             this.labelUpl = new System.Windows.Forms.Label();
             this.timer = new System.Windows.Forms.Timer(this.components);
-            this.labelUrlErr = new System.Windows.Forms.Label();
             color = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartPing)).BeginInit();
             this.panel2.SuspendLayout();
             this.panel6.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -94,7 +94,7 @@
             // 
             // panel3
             // 
-            this.panel3.Controls.Add(this.chart1);
+            this.panel3.Controls.Add(this.chartPing);
             this.panel3.Controls.Add(this.listViewIpPing);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel3.Location = new System.Drawing.Point(400, 0);
@@ -102,7 +102,7 @@
             this.panel3.Size = new System.Drawing.Size(705, 305);
             this.panel3.TabIndex = 1;
             // 
-            // chart1
+            // chartPing
             // 
             chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.Silver;
             chartArea1.AxisX.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dash;
@@ -116,17 +116,17 @@
             chartArea1.InnerPlotPosition.X = 12F;
             chartArea1.InnerPlotPosition.Y = 2F;
             chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
-            this.chart1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chart1.Location = new System.Drawing.Point(360, 0);
-            this.chart1.Name = "chart1";
+            this.chartPing.ChartAreas.Add(chartArea1);
+            this.chartPing.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chartPing.Location = new System.Drawing.Point(360, 0);
+            this.chartPing.Name = "chartPing";
             series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
             series1.Name = "Series1";
-            this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(345, 305);
-            this.chart1.TabIndex = 4;
-            this.chart1.Text = "chart1";
+            this.chartPing.Series.Add(series1);
+            this.chartPing.Size = new System.Drawing.Size(345, 305);
+            this.chartPing.TabIndex = 4;
+            this.chartPing.Text = "chartPing";
             // 
             // listViewIpPing
             // 
@@ -229,6 +229,18 @@
             this.panel4.Size = new System.Drawing.Size(400, 395);
             this.panel4.TabIndex = 3;
             // 
+            // labelUrlErr
+            // 
+            this.labelUrlErr.AutoSize = true;
+            this.labelUrlErr.BackColor = System.Drawing.Color.Transparent;
+            this.labelUrlErr.ForeColor = System.Drawing.Color.Red;
+            this.labelUrlErr.Location = new System.Drawing.Point(132, 3);
+            this.labelUrlErr.Name = "labelUrlErr";
+            this.labelUrlErr.Size = new System.Drawing.Size(90, 13);
+            this.labelUrlErr.TabIndex = 7;
+            this.labelUrlErr.Text = "Помилкове URL";
+            this.labelUrlErr.Visible = false;
+            // 
             // buttonGeoTest
             // 
             this.buttonGeoTest.BackColor = System.Drawing.Color.Gold;
@@ -295,6 +307,7 @@
             this.textBoxUrl.Size = new System.Drawing.Size(260, 20);
             this.textBoxUrl.TabIndex = 1;
             this.textBoxUrl.Click += new System.EventHandler(this.textBoxUrl_Click);
+            this.textBoxUrl.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxUrl_KeyDown);
             // 
             // buttonSearch
             // 
@@ -330,18 +343,6 @@
             this.timer.Interval = 1000;
             this.timer.Tick += new System.EventHandler(this.timer_Tick);
             // 
-            // labelUrlErr
-            // 
-            this.labelUrlErr.AutoSize = true;
-            this.labelUrlErr.BackColor = System.Drawing.Color.Transparent;
-            this.labelUrlErr.ForeColor = System.Drawing.Color.Red;
-            this.labelUrlErr.Location = new System.Drawing.Point(132, 3);
-            this.labelUrlErr.Name = "labelUrlErr";
-            this.labelUrlErr.Size = new System.Drawing.Size(90, 13);
-            this.labelUrlErr.TabIndex = 7;
-            this.labelUrlErr.Text = "Помилкове URL";
-            this.labelUrlErr.Visible = false;
-            // 
             // UcGeoLocation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -354,7 +355,7 @@
             this.Size = new System.Drawing.Size(1105, 709);
             this.panel1.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartPing)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
@@ -374,7 +375,7 @@
         private System.Windows.Forms.Label labelUpl;
         private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.TextBox textBoxLog;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chartPing;
         private System.Windows.Forms.Timer timer;
         private System.Windows.Forms.ListView listViewIpPing;
         private System.Windows.Forms.ColumnHeader CheckBox;

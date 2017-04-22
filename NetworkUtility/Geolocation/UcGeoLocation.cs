@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace NetworkUtility
 {
@@ -23,6 +24,8 @@ namespace NetworkUtility
             }
         }
 
+        private bool chartExist = false;
+
         public UcGeoLocation()
         {
             InitializeComponent();
@@ -32,17 +35,19 @@ namespace NetworkUtility
 
         private void buttonSearch_Click(object sender, EventArgs e)
         {
-            if (Convert.ToBoolean(textBoxUrl.Text.Length))
+            textBoxUrl.Enabled = false;
+            buttonSearch.Enabled = false;
+            if (Convert.ToBoolean(textBoxUrl.Text.Length)) //перевірка чи введена URL адреса
             {
                 IpFromHost host = new IpFromHost();
-                host.GetIpAddress(textBoxUrl.Text);
-                if (host.HostState)
+                host.GetIpAddress(textBoxUrl.Text); //запит до DNS сервера
+                if (host.HostState) //якщо сервер дав відповідь
                 {
                     labelUrlErr.Visible = false;
                     textBoxUrl.BackColor = Color.White;
 
                     listViewIpPing.Items.Clear();
-                    foreach (IPAddress Address in host.IpAddressesList)
+                    foreach (IPAddress Address in host.IpAddressesList) //заповнення таблиці IP адресами які повернув DNS
                     {
                         ListViewItem item = new ListViewItem();
                         item.Checked = true;
@@ -55,14 +60,17 @@ namespace NetworkUtility
                         item.SubItems.Add("");
                         listViewIpPing.Items.Add(item);
                     }
+
+                    webBrowser.Url = new Uri("https://tools.keycdn.com/geo?host=" + host.NormHost);
+                    timer.Enabled = true;
                 }
-                else
+                else //якщо DNS сервер не відповідає
                 {
                     labelUrlErr.Visible = true;
                     textBoxUrl.BackColor = Color.OrangeRed;
                 }
             }
-            else
+            else //якщо адреса пуста
             {
                 textBoxUrl.BackColor = Color.OrangeRed;
                 textBoxUrl.Text = "впишіть URL";
@@ -70,7 +78,7 @@ namespace NetworkUtility
 
 
             //InetConnectionTest();
-            ////timer.Enabled = true;
+            ////
             //ListViewItem item = new ListViewItem();
             //item.Checked = true;
             //item.UseItemStyleForSubItems = false;
@@ -81,23 +89,69 @@ namespace NetworkUtility
             //item.SubItems.Add("SubI 5");
             //item.SubItems.Add("");
 
-            
+            textBoxUrl.Enabled = true;
+            buttonSearch.Enabled = true;
         }
 
         private void timer_Tick(object sender, EventArgs e)
         {
-            int rand = new Random().Next(10,100);
-            if (listViewIpPing.Items[0].Checked)
+            if(!chartExist)
             {
-                chart1.Series["Series1"].Points.AddY(rand);
-                listViewIpPing.Items[0].SubItems[2].Text = rand.ToString();
-                listViewIpPing.Items[0].SubItems[6].BackColor = Color.Aquamarine;
+                Random randonGen = new Random();
+                for (int index = 0; index < listViewIpPing.Items.Count; index++)
+                {
+                    chartPing.Series.Add(index.ToString());
+                    Color randomColor = Color.FromArgb(randonGen.Next(255), randonGen.Next(255), randonGen.Next(255));
+                    chartPing.Series[index].Color = randomColor;
+                    listViewIpPing.Items[index].SubItems[6].BackColor = randomColor;
+                    chartPing.Series[index].ChartType = SeriesChartType.Line;
+                    chartPing.Series[index].IsXValueIndexed = true;
+                    chartPing.Series[index].Label = "#VALms";
+                    chartPing.Series[index].MarkerStyle = MarkerStyle.Circle;
+                }
+                chartExist = true;
             }
-            else
+
+            for (int index = 0; index < listViewIpPing.Items.Count; index++)
             {
-                chart1.Series["Series1"].Points.AddY(999);
-                listViewIpPing.Items[0].SubItems[2].Text = "TimeOut";
-                listViewIpPing.Items[0].SubItems[6].BackColor = Color.OrangeRed;
+
+                if (listViewIpPing.Items[index].Checked)
+                {
+                    Ping ping = new Ping();
+                    PingReply pingReply = ping.Send(listViewIpPing.Items[index].SubItems[1].Text);
+                    if (chartPing.Series[index].Points.Count > 22)
+                        chartPing.Series[index].Points.RemoveAt(0);
+                    if (pingReply.Status == IPStatus.Success)
+                    {
+                        chartPing.Series[index].Points.AddY(pingReply.RoundtripTime);
+                        listViewIpPing.Items[index].SubItems[2].Text = pingReply.RoundtripTime.ToString();
+                        listViewIpPing.Items[index].SubItems[1].BackColor = Color.YellowGreen;
+                    }
+                    else
+                    {
+                        chartPing.Series[index].Points.AddY(999);
+                        listViewIpPing.Items[index].SubItems[2].Text = "TimeOut";
+                        listViewIpPing.Items[index].SubItems[1].BackColor = Color.OrangeRed;
+                    }
+
+                }
+                else
+                {
+                    chartPing.Series[index].Points.AddY(0);
+                    listViewIpPing.Items[index].SubItems[2].Text = "Off";
+                    listViewIpPing.Items[index].SubItems[1].BackColor = Color.Orange;
+                }
+            }
+
+            
+        }
+
+        private void textBoxUrl_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                buttonSearch_Click(sender, e);
+                e.SuppressKeyPress = true;
             }
         }
 
@@ -145,7 +199,7 @@ namespace NetworkUtility
             }
         }
 
-        private string randomHostName()
+        private string randomHostName() //рандомно повертає існуючу URL адресу 
         {
             string[] hosts = 
             {
@@ -161,13 +215,14 @@ namespace NetworkUtility
                 "2ip.ua",
                 "intita.com",
                 ".linkedin.com",
-                "piznay.com"
+                "piznay.com",
+                "youtube.com"
             };
             Random random = new Random();
             return hosts[random.Next(hosts.Length-1)];
         }
 
-        private void textBoxUrl_Click(object sender, EventArgs e)
+        private void textBoxUrl_Click(object sender, EventArgs e) //очистка текстового поля по кліку для зручності
         {
             labelUrlErr.Visible = false;
             textBoxUrl.BackColor = Color.White;

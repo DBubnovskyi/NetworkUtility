@@ -12,6 +12,7 @@ namespace NetworkUtility
     class IpFromHost
     {
         public bool HostState;
+        public string NormHost;
         public string Message;
         public List<IPAddress> IpAddressesList = new List<IPAddress>();
         public string GetIpAddress(string hostname)
@@ -20,13 +21,13 @@ namespace NetworkUtility
             hostname = hostname.Replace("http://","");
             hostname = hostname.Replace("https://", "");
             string[] hosts = hostname.Split('/');
-            string normHost = hosts[0];
+            NormHost = hosts[0];
 
             IPHostEntry entry = null;
 
             try
             {
-                entry = Dns.GetHostEntry(normHost);
+                entry = Dns.GetHostEntry(NormHost);
             }
             catch (SocketException e)
             {
