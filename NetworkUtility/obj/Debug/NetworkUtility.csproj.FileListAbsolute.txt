@@ -10,3 +10,8 @@ E:\study\programming\C# project\NetworkUtility\NetworkUtility\obj\Debug\NetworkU
 E:\study\programming\C# project\NetworkUtility\NetworkUtility\obj\Debug\NetworkUtility.ucGeoLocation.resources
 E:\study\programming\C# project\NetworkUtility\NetworkUtility\bin\Debug\Newtonsoft.Json.dll
 E:\study\programming\C# project\NetworkUtility\NetworkUtility\bin\Debug\Newtonsoft.Json.xml
+E:\study\programming\C# project\NetworkUtility\NetworkUtility\bin\Debug\GMap.NET.Core.dll
+E:\study\programming\C# project\NetworkUtility\NetworkUtility\bin\Debug\GMap.NET.WindowsForms.dll
+E:\study\programming\C# project\NetworkUtility\NetworkUtility\bin\Debug\GMap.NET.Core.xml
+E:\study\programming\C# project\NetworkUtility\NetworkUtility\bin\Debug\GMap.NET.WindowsForms.xml
+E:\study\programming\C# project\NetworkUtility\NetworkUtility\obj\Debug\NetworkUtility.Trace.UcTraceRoute.resources
