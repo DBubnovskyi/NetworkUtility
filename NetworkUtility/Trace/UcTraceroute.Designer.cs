@@ -34,6 +34,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.textBoxUrl = new System.Windows.Forms.TextBox();
             this.Trace = new System.Windows.Forms.Button();
+            this.textBoxLog = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -67,6 +68,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.textBoxLog);
             this.panel1.Controls.Add(this.groupBox1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel1.Location = new System.Drawing.Point(0, 0);
@@ -91,7 +93,7 @@
             this.groupBox1.Location = new System.Drawing.Point(12, 14);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(8);
-            this.groupBox1.Size = new System.Drawing.Size(205, 85);
+            this.groupBox1.Size = new System.Drawing.Size(205, 419);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "groupBox1";
@@ -115,6 +117,15 @@
             this.Trace.UseVisualStyleBackColor = false;
             this.Trace.Click += new System.EventHandler(this.Trace_Click);
             // 
+            // textBoxLog
+            // 
+            this.textBoxLog.Location = new System.Drawing.Point(23, 93);
+            this.textBoxLog.Multiline = true;
+            this.textBoxLog.Name = "textBoxLog";
+            this.textBoxLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.textBoxLog.Size = new System.Drawing.Size(183, 327);
+            this.textBoxLog.TabIndex = 1;
+            // 
             // UcTraceRoute
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -124,6 +135,7 @@
             this.Name = "UcTraceRoute";
             this.Size = new System.Drawing.Size(1000, 700);
             this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -139,5 +151,6 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button Trace;
         private System.Windows.Forms.TextBox textBoxUrl;
+        private System.Windows.Forms.TextBox textBoxLog;
     }
 }

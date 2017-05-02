@@ -21,6 +21,8 @@ namespace NetworkUtility.Trace
 {
     public partial class UcTraceRoute : UserControl
     {
+        static IEnumerable<IPAddress> IpAddresesTraceRoute;
+
         private static UcTraceRoute _sample;
         public static UcTraceRoute Sample
         {
@@ -51,26 +53,20 @@ namespace NetworkUtility.Trace
 
         private void Trace_Click(object sender, EventArgs e)
         {
-
-        }
-
-        public static void TraceRoute(string hostNameOrAddress)
-        {
-            List<string> IpAddresesTraceRoute = new List<string>();
-            for (int i = 1; i < 20; i++)
+            textBoxLog.Text = "";
+            foreach(var ip in GetTraceRoute(textBoxUrl.Text))
             {
-                IPAddress ip = GetTraceRoute(hostNameOrAddress, i);
-                if (ip == null)
-                {
-                    break;
-                }
-                IpAddresesTraceRoute.Add(ip.ToString());
+                textBoxLog.Text += "\r\n" + ip;
             }
         }
+        private const string Data = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
 
-        private static IPAddress GetTraceRoute(string hostNameOrAddress, int ttl)
+        static IEnumerable<IPAddress> GetTraceRoute(string hostNameOrAddress)
         {
-            const string Data = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+            return GetTraceRoute(hostNameOrAddress, 1);
+        }
+        static IEnumerable<IPAddress> GetTraceRoute(string hostNameOrAddress, int ttl)
+        {
             Ping pinger = new Ping();
             PingOptions pingerOptions = new PingOptions(ttl, true);
             int timeout = 10000;
@@ -80,14 +76,25 @@ namespace NetworkUtility.Trace
             reply = pinger.Send(hostNameOrAddress, timeout, buffer, pingerOptions);
 
             List<IPAddress> result = new List<IPAddress>();
-            if (reply.Status == IPStatus.Success || reply.Status == IPStatus.TtlExpired)
+            if (reply.Status == IPStatus.Success)
             {
-                return reply.Address;
+                result.Add(reply.Address);
+            }
+            else if (reply.Status == IPStatus.TtlExpired || reply.Status == IPStatus.TimedOut)
+            {
+                //add the currently returned address if an address was found with this TTL
+                if (reply.Status == IPStatus.TtlExpired) result.Add(reply.Address);
+                //recurse to get the next address...
+                IEnumerable<IPAddress> tempResult = default(IEnumerable<IPAddress>);
+                tempResult = GetTraceRoute(hostNameOrAddress, ttl + 1);
+                result.AddRange(tempResult);
             }
             else
             {
-                return null;
+                //failure 
             }
+
+            return result;
         }
     }
 }
