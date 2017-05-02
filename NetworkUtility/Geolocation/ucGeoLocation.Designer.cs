@@ -55,8 +55,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.textBoxUrl = new System.Windows.Forms.TextBox();
             this.buttonSearch = new System.Windows.Forms.Button();
-            this.labelUpl = new System.Windows.Forms.Label();
             this.timer = new System.Windows.Forms.Timer(this.components);
+            this.buttonRandomUrl = new System.Windows.Forms.Button();
             color = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -214,6 +214,7 @@
             // 
             this.panel4.BackColor = System.Drawing.Color.White;
             this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel4.Controls.Add(this.buttonRandomUrl);
             this.panel4.Controls.Add(this.labelUrlErr);
             this.panel4.Controls.Add(this.buttonGeoTest);
             this.panel4.Controls.Add(this.label3);
@@ -222,7 +223,6 @@
             this.panel4.Controls.Add(this.label1);
             this.panel4.Controls.Add(this.textBoxUrl);
             this.panel4.Controls.Add(this.buttonSearch);
-            this.panel4.Controls.Add(this.labelUpl);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel4.Location = new System.Drawing.Point(0, 0);
             this.panel4.Name = "panel4";
@@ -302,9 +302,9 @@
             // textBoxUrl
             // 
             this.textBoxUrl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBoxUrl.Location = new System.Drawing.Point(42, 16);
+            this.textBoxUrl.Location = new System.Drawing.Point(60, 16);
             this.textBoxUrl.Name = "textBoxUrl";
-            this.textBoxUrl.Size = new System.Drawing.Size(260, 20);
+            this.textBoxUrl.Size = new System.Drawing.Size(249, 20);
             this.textBoxUrl.TabIndex = 1;
             this.textBoxUrl.Click += new System.EventHandler(this.textBoxUrl_Click);
             this.textBoxUrl.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxUrl_KeyDown);
@@ -326,22 +326,27 @@
             this.buttonSearch.UseVisualStyleBackColor = false;
             this.buttonSearch.Click += new System.EventHandler(this.buttonSearch_Click);
             // 
-            // labelUpl
-            // 
-            this.labelUpl.AutoSize = true;
-            this.labelUpl.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelUpl.ForeColor = System.Drawing.Color.Black;
-            this.labelUpl.Location = new System.Drawing.Point(10, 19);
-            this.labelUpl.Name = "labelUpl";
-            this.labelUpl.Size = new System.Drawing.Size(27, 14);
-            this.labelUpl.TabIndex = 0;
-            this.labelUpl.Text = "URL";
-            this.labelUpl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // timer
             // 
             this.timer.Interval = 1000;
             this.timer.Tick += new System.EventHandler(this.timer_Tick);
+            // 
+            // buttonRandomUrl
+            // 
+            this.buttonRandomUrl.BackColor = System.Drawing.Color.Silver;
+            this.buttonRandomUrl.FlatAppearance.BorderSize = 0;
+            this.buttonRandomUrl.FlatAppearance.MouseDownBackColor = System.Drawing.Color.DarkSeaGreen;
+            this.buttonRandomUrl.FlatAppearance.MouseOverBackColor = System.Drawing.Color.SkyBlue;
+            this.buttonRandomUrl.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonRandomUrl.Location = new System.Drawing.Point(13, 16);
+            this.buttonRandomUrl.Margin = new System.Windows.Forms.Padding(0);
+            this.buttonRandomUrl.Name = "buttonRandomUrl";
+            this.buttonRandomUrl.Size = new System.Drawing.Size(44, 20);
+            this.buttonRandomUrl.TabIndex = 8;
+            this.buttonRandomUrl.Text = "URL";
+            this.buttonRandomUrl.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.buttonRandomUrl.UseVisualStyleBackColor = false;
+            this.buttonRandomUrl.Click += new System.EventHandler(this.buttonRandomUrl_Click);
             // 
             // UcGeoLocation
             // 
@@ -372,7 +377,6 @@
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.TextBox textBoxUrl;
         private System.Windows.Forms.Button buttonSearch;
-        private System.Windows.Forms.Label labelUpl;
         private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.TextBox textBoxLog;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartPing;
@@ -392,5 +396,6 @@
         private System.Windows.Forms.Button buttonGeoTest;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label labelUrlErr;
+        private System.Windows.Forms.Button buttonRandomUrl;
     }
 }

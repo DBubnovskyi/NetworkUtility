@@ -30,13 +30,15 @@ namespace NetworkUtility
         {
             InitializeComponent();
             InetConnectionTest();
-           
+            textBoxUrl.Text = randomHostName();
         }
 
         private void buttonSearch_Click(object sender, EventArgs e)
         {
             textBoxUrl.Enabled = false;
             buttonSearch.Enabled = false;
+            chartExist = false;
+            timer.Enabled = false;
             if (Convert.ToBoolean(textBoxUrl.Text.Length)) //перевірка чи введена URL адреса
             {
                 IpFromHost host = new IpFromHost();
@@ -61,6 +63,7 @@ namespace NetworkUtility
                         listViewIpPing.Items.Add(item);
                     }
 
+                    textBoxLog.Text = host.Message; 
                     webBrowser.Url = new Uri("https://tools.keycdn.com/geo?host=" + host.NormHost);
                     timer.Enabled = true;
                 }
@@ -76,19 +79,6 @@ namespace NetworkUtility
                 textBoxUrl.Text = "впишіть URL";
             }
 
-
-            //InetConnectionTest();
-            ////
-            //ListViewItem item = new ListViewItem();
-            //item.Checked = true;
-            //item.UseItemStyleForSubItems = false;
-            //item.SubItems.Add("192.123.213.222");
-            //item.SubItems.Add("SubI 2");
-            //item.SubItems.Add("SubI 3");
-            //item.SubItems.Add("SubI 4");
-            //item.SubItems.Add("SubI 5");
-            //item.SubItems.Add("");
-
             textBoxUrl.Enabled = true;
             buttonSearch.Enabled = true;
         }
@@ -97,6 +87,7 @@ namespace NetworkUtility
         {
             if(!chartExist)
             {
+                chartPing.Series.Clear();
                 Random randonGen = new Random();
                 for (int index = 0; index < listViewIpPing.Items.Count; index++)
                 {
@@ -105,8 +96,11 @@ namespace NetworkUtility
                     chartPing.Series[index].Color = randomColor;
                     listViewIpPing.Items[index].SubItems[6].BackColor = randomColor;
                     chartPing.Series[index].ChartType = SeriesChartType.Line;
-                    chartPing.Series[index].IsXValueIndexed = true;
-                    chartPing.Series[index].Label = "#VALms";
+                    if (listViewIpPing.Items.Count < 3)
+                    {
+                        //chartPing.Series[index].IsXValueIndexed = true;
+                        chartPing.Series[index].Label = "#VALms";
+                    }
                     chartPing.Series[index].MarkerStyle = MarkerStyle.Circle;
                 }
                 chartExist = true;
@@ -118,7 +112,7 @@ namespace NetworkUtility
                 if (listViewIpPing.Items[index].Checked)
                 {
                     Ping ping = new Ping();
-                    PingReply pingReply = ping.Send(listViewIpPing.Items[index].SubItems[1].Text);
+                    PingReply pingReply = ping.Send(listViewIpPing.Items[index].SubItems[1].Text,999);
                     if (chartPing.Series[index].Points.Count > 22)
                         chartPing.Series[index].Points.RemoveAt(0);
                     if (pingReply.Status == IPStatus.Success)
@@ -137,6 +131,8 @@ namespace NetworkUtility
                 }
                 else
                 {
+                    if (chartPing.Series[index].Points.Count > 22)
+                        chartPing.Series[index].Points.RemoveAt(0);
                     chartPing.Series[index].Points.AddY(0);
                     listViewIpPing.Items[index].SubItems[2].Text = "Off";
                     listViewIpPing.Items[index].SubItems[1].BackColor = Color.Orange;
@@ -157,7 +153,6 @@ namespace NetworkUtility
 
         private void InetConnectionTest()
         {
-            textBoxUrl.Text = randomHostName();
             Ping server = new Ping();
             //перевірка підключення до інтеренету і сервісу геолокації
             PingReply serverReply = server.Send("8.8.8.8");
@@ -214,7 +209,7 @@ namespace NetworkUtility
                 "tools.keycdn.com",
                 "2ip.ua",
                 "intita.com",
-                ".linkedin.com",
+                "linkedin.com",
                 "piznay.com",
                 "youtube.com"
             };
@@ -227,6 +222,11 @@ namespace NetworkUtility
             labelUrlErr.Visible = false;
             textBoxUrl.BackColor = Color.White;
             textBoxUrl.Text = "";
+        }
+
+        private void buttonRandomUrl_Click(object sender, EventArgs e)
+        {
+            textBoxUrl.Text = randomHostName();
         }
     }
 }
