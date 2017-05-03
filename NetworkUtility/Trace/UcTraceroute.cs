@@ -16,12 +16,17 @@ using System.Windows.Forms;
 
 using System.Net.NetworkInformation;
 using System.Net;
+using System.Threading;
 
 namespace NetworkUtility.Trace
 {
     public partial class UcTraceRoute : UserControl
     {
         static IEnumerable<IPAddress> IpAddresesTraceRoute;
+
+        List<PointLatLng> points = new List<PointLatLng>();
+        GMapRoute route;
+        GMapOverlay routes = new GMapOverlay("routes");
 
         private static UcTraceRoute _sample;
         public static UcTraceRoute Sample
@@ -43,7 +48,6 @@ namespace NetworkUtility.Trace
             GMap.NET.GMaps.Instance.Mode = GMap.NET.AccessMode.ServerOnly;
             traceMep.SetPositionByKeywords("Paris, France");
             traceMep.ShowCenter = false;
-
             traceMep.Zoom = 9;
             traceMep.Position = new PointLatLng(49.35, 28.45);
             traceMep.MapProvider = GoogleMapProvider.Instance;
@@ -53,13 +57,14 @@ namespace NetworkUtility.Trace
 
         private void Trace_Click(object sender, EventArgs e)
         {
-            textBoxLog.Text = "";
-            foreach(var ip in GetTraceRoute(textBoxUrl.Text))
+            Thread treceThread = new Thread(TreceRouteStart);
+            if (!treceThread.IsAlive)
             {
-                textBoxLog.Text += "\r\n" + ip;
+                treceThread.Name = "Tracing to Host";
+                treceThread.Start(this);
             }
         }
-        private const string Data = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+        
 
         static IEnumerable<IPAddress> GetTraceRoute(string hostNameOrAddress)
         {
@@ -67,6 +72,7 @@ namespace NetworkUtility.Trace
         }
         static IEnumerable<IPAddress> GetTraceRoute(string hostNameOrAddress, int ttl)
         {
+            string Data = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
             Ping pinger = new Ping();
             PingOptions pingerOptions = new PingOptions(ttl, true);
             int timeout = 10000;
@@ -95,6 +101,48 @@ namespace NetworkUtility.Trace
             }
 
             return result;
+        }
+
+        void TreceRouteStart(object state)
+        {
+            UcTraceRoute form = (state as UcTraceRoute);
+            if (form.InvokeRequired)
+                form.Invoke(new ParameterizedThreadStart(TreceRouteStart), state);
+            else
+            {
+                route = null;
+                points.Clear();
+                routes.Routes.Clear();
+                traceMep.Overlays.Clear();
+                IpFromHost Host = new IpFromHost();
+                GeoDataByIPFromWeb Geo = new GeoDataByIPFromWeb();
+                Host.GetIpAddress(textBoxUrl.Text);
+                textBoxLog.Text = "";
+                IpAddresesTraceRoute = GetTraceRoute(Host.NormHost);
+                foreach (var ip in IpAddresesTraceRoute)
+                {
+                    GeoData GeoObj = Geo.GetData(ip.ToString());
+
+                    textBoxLog.Text += "\r\n" + ip;
+
+                    if (GeoObj.InnerData.GeoInfo.Latitude != null && GeoObj.InnerData.GeoInfo.Latitude != null)
+                    {
+                        this.textBoxLog.Text += "\r\n" + GeoObj.InnerData.GeoInfo.Latitude
+                                                + "\r\n" + GeoObj.InnerData.GeoInfo.Longityde;
+
+                        double lat = double.Parse(GeoObj.InnerData.GeoInfo.Latitude.Replace(".", ","));
+                        double lng = double.Parse(GeoObj.InnerData.GeoInfo.Longityde.Replace(".", ","));
+
+                        //MainMap.Position = new PointLatLng(lat, lng);
+
+                        points.Add(new PointLatLng(lat, lng));
+                    }
+                    route = new GMapRoute(points, "Route");
+                    route.Stroke = new Pen(Color.Brown, 2);
+                    routes.Routes.Add(route);
+                    traceMep.Overlays.Add(routes);
+                }           
+            }   
         }
     }
 }
