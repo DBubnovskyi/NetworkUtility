@@ -57,11 +57,12 @@ namespace NetworkUtility.Trace
 
         private void Trace_Click(object sender, EventArgs e)
         {
+            CheckForIllegalCrossThreadCalls = false;
             Thread treceThread = new Thread(TreceRouteStart);
             if (!treceThread.IsAlive)
             {
                 treceThread.Name = "Tracing to Host";
-                treceThread.Start(this);
+                treceThread.Start();
             }
         }
         
@@ -72,12 +73,11 @@ namespace NetworkUtility.Trace
         }
         static IEnumerable<IPAddress> GetTraceRoute(string hostNameOrAddress, int ttl)
         {
-            string Data = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
             Ping pinger = new Ping();
             PingOptions pingerOptions = new PingOptions(ttl, true);
             int timeout = 10000;
-            byte[] buffer = Encoding.ASCII.GetBytes(Data);
-            PingReply reply = default(PingReply);
+            byte[] buffer = Encoding.ASCII.GetBytes("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+            PingReply reply;// = default(PingReply);
 
             reply = pinger.Send(hostNameOrAddress, timeout, buffer, pingerOptions);
 
@@ -91,7 +91,7 @@ namespace NetworkUtility.Trace
                 //add the currently returned address if an address was found with this TTL
                 if (reply.Status == IPStatus.TtlExpired) result.Add(reply.Address);
                 //recurse to get the next address...
-                IEnumerable<IPAddress> tempResult = default(IEnumerable<IPAddress>);
+                IEnumerable<IPAddress> tempResult;// = default(IEnumerable<IPAddress>);
                 tempResult = GetTraceRoute(hostNameOrAddress, ttl + 1);
                 result.AddRange(tempResult);
             }
@@ -105,11 +105,11 @@ namespace NetworkUtility.Trace
 
         void TreceRouteStart(object state)
         {
-            UcTraceRoute form = (state as UcTraceRoute);
-            if (form.InvokeRequired)
-                form.Invoke(new ParameterizedThreadStart(TreceRouteStart), state);
-            else
-            {
+            //UcTraceRoute form = (state as UcTraceRoute);
+            //if (form.InvokeRequired)
+            //    form.Invoke(new ParameterizedThreadStart(TreceRouteStart), state);
+            //else
+            //{
                 route = null;
                 points.Clear();
                 routes.Routes.Clear();
@@ -118,17 +118,21 @@ namespace NetworkUtility.Trace
                 GeoDataByIPFromWeb Geo = new GeoDataByIPFromWeb();
                 Host.GetIpAddress(textBoxUrl.Text);
                 textBoxLog.Text = "";
+
                 IpAddresesTraceRoute = GetTraceRoute(Host.NormHost);
+                
+                GMapOverlay markersOverlay = new GMapOverlay("markers");
+
                 foreach (var ip in IpAddresesTraceRoute)
                 {
                     GeoData GeoObj = Geo.GetData(ip.ToString());
 
-                    textBoxLog.Text += "\r\n" + ip;
+                    textBoxLog.Text += "\r\n-->" + ip;
 
                     if (GeoObj.InnerData.GeoInfo.Latitude != null && GeoObj.InnerData.GeoInfo.Latitude != null)
                     {
-                        this.textBoxLog.Text += "\r\n" + GeoObj.InnerData.GeoInfo.Latitude
-                                                + "\r\n" + GeoObj.InnerData.GeoInfo.Longityde;
+                        textBoxLog.Text += "\r\n" + GeoObj.InnerData.GeoInfo.Latitude
+                                                + "\r\n" + GeoObj.InnerData.GeoInfo.Longityde + "\r\n";
 
                         double lat = double.Parse(GeoObj.InnerData.GeoInfo.Latitude.Replace(".", ","));
                         double lng = double.Parse(GeoObj.InnerData.GeoInfo.Longityde.Replace(".", ","));
@@ -136,13 +140,38 @@ namespace NetworkUtility.Trace
                         //MainMap.Position = new PointLatLng(lat, lng);
 
                         points.Add(new PointLatLng(lat, lng));
+                        GMarkerGoogle marker = new GMarkerGoogle
+                        (
+                            new PointLatLng(lat,lng),
+                            //GMarkerGoogleType.orange
+                            new Bitmap(@"none.png")
+                        );
+                        marker.ToolTipMode = MarkerTooltipMode.Always;
+                        marker.ToolTipText = ip.ToString() +
+                            "\r\n" + GeoObj.InnerData.GeoInfo.CountryName +
+                            "\r\n" + GeoObj.InnerData.GeoInfo.City +
+                            "\r\n" + GeoObj.InnerData.GeoInfo.isp;
+                        marker.ToolTip.Fill = Brushes.WhiteSmoke;
+                        marker.ToolTip.Foreground = Brushes.Black;
+                        marker.ToolTip.Stroke = Pens.Black;
+                        marker.ToolTip.TextPadding = new Size(10, 10);
+                        marker.ToolTip.Font = marker.ToolTip.Font = new Font("Arial", (float)7.5, FontStyle.Regular);
+
+                        markersOverlay.Markers.Add(marker);
                     }
                     route = new GMapRoute(points, "Route");
                     route.Stroke = new Pen(Color.Brown, 2);
                     routes.Routes.Add(route);
                     traceMep.Overlays.Add(routes);
-                }           
+                    traceMep.Overlays.Add(markersOverlay);
+                //}           
             }   
+        }
+
+        private void traceMep_MouseMove(object sender, MouseEventArgs e)
+        {
+            label1.Text = "Latitude   "  +  traceMep.FromLocalToLatLng(e.X, e.Y).Lat.ToString();
+            label2.Text = "Longityde "  +  traceMep.FromLocalToLatLng(e.X, e.Y).Lng.ToString();
         }
     }
 }
