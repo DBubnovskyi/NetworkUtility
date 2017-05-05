@@ -74,17 +74,19 @@ namespace NetworkUtility.Trace
 
         IEnumerable<IPAddress> GetTraceRoute(string hostNameOrAddress)
         {
-            return GetTraceRoute(hostNameOrAddress, 1);
+            const int timeOutCounter = 0;
+            return GetTraceRoute(hostNameOrAddress, 1, timeOutCounter);
         }
-        IEnumerable<IPAddress> GetTraceRoute(string hostNameOrAddress, int ttl)
+        IEnumerable<IPAddress> GetTraceRoute(string hostNameOrAddress, int ttl, int timeOutCounter)
         {
             Ping pinger = new Ping();
             PingOptions pingerOptions = new PingOptions(ttl, true);
-            int timeout = 1000;
+            int timeOut = 1000;
+           
             byte[] buffer = Encoding.ASCII.GetBytes("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
             PingReply reply;// = default(PingReply);
 
-            reply = pinger.Send(hostNameOrAddress, timeout, buffer, pingerOptions);
+            reply = pinger.Send(hostNameOrAddress, timeOut, buffer, pingerOptions);
             textBoxLog.Text += "<-- send ping with ttl " + ttl + "\r\n";
 
             List<IPAddress> result = new List<IPAddress>();
@@ -100,14 +102,19 @@ namespace NetworkUtility.Trace
                 {
                     result.Add(reply.Address);
                     textBoxLog.Text += "--> " + reply.Address + " " + reply.RoundtripTime + "ms\r\n";
+                    timeOutCounter = 0;
                 }
                 else if (reply.Status == IPStatus.TimedOut)
                 {
                     textBoxLog.Text += "--> " + reply.Address + " " + "TimedOut\r\n";
+                    if (++timeOutCounter > 5)
+                    {
+                        return result;
+                    }
                 }
                 //recurse to get the next address...
                 IEnumerable<IPAddress> tempResult;// = default(IEnumerable<IPAddress>);
-                tempResult = GetTraceRoute(hostNameOrAddress, ttl + 1);
+                tempResult = GetTraceRoute(hostNameOrAddress, ttl + 1, timeOutCounter);
                 result.AddRange(tempResult);
             }
             else
