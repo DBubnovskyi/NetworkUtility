@@ -23,7 +23,7 @@ namespace NetworkUtility.Trace
     public partial class UcTraceRoute : UserControl
     {
         static IEnumerable<IPAddress> IpAddresesTraceRoute;
-
+        
         List<PointLatLng> points = new List<PointLatLng>();
         GMapRoute route;
         GMapOverlay routes = new GMapOverlay("routes");
@@ -49,7 +49,12 @@ namespace NetworkUtility.Trace
             traceMep.SetPositionByKeywords("Paris, France");
             traceMep.ShowCenter = false;
             traceMep.Zoom = 9;
-            traceMep.Position = new PointLatLng(49.35, 28.45);
+            GeoDataByIPFromWeb localGeoObj = new GeoDataByIPFromWeb();
+            GeoData localGeo = localGeoObj.GetData("");
+            double lat = double.Parse(localGeo.InnerData.GeoInfo.Latitude.Replace(".", ","));
+            double lng = double.Parse(localGeo.InnerData.GeoInfo.Longityde.Replace(".", ","));
+            if (localGeo.InnerData.GeoInfo.Latitude != null && localGeo.InnerData.GeoInfo.Longityde != null)
+                traceMep.Position = new PointLatLng(lat, lng);
             traceMep.MapProvider = GoogleMapProvider.Instance;
             traceMep.DragButton = MouseButtons.Left;
             traceMep.IgnoreMarkerOnMouseWheel = true;
@@ -67,29 +72,39 @@ namespace NetworkUtility.Trace
         }
         
 
-        static IEnumerable<IPAddress> GetTraceRoute(string hostNameOrAddress)
+        IEnumerable<IPAddress> GetTraceRoute(string hostNameOrAddress)
         {
             return GetTraceRoute(hostNameOrAddress, 1);
         }
-        static IEnumerable<IPAddress> GetTraceRoute(string hostNameOrAddress, int ttl)
+        IEnumerable<IPAddress> GetTraceRoute(string hostNameOrAddress, int ttl)
         {
             Ping pinger = new Ping();
             PingOptions pingerOptions = new PingOptions(ttl, true);
-            int timeout = 10000;
+            int timeout = 1000;
             byte[] buffer = Encoding.ASCII.GetBytes("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
             PingReply reply;// = default(PingReply);
 
             reply = pinger.Send(hostNameOrAddress, timeout, buffer, pingerOptions);
+            textBoxLog.Text += "<-- send ping with ttl " + ttl + "\r\n";
 
             List<IPAddress> result = new List<IPAddress>();
             if (reply.Status == IPStatus.Success)
             {
                 result.Add(reply.Address);
+                textBoxLog.Text += "--> " + reply.Address + " " + reply.RoundtripTime + "ms\r\n";
             }
             else if (reply.Status == IPStatus.TtlExpired || reply.Status == IPStatus.TimedOut)
             {
                 //add the currently returned address if an address was found with this TTL
-                if (reply.Status == IPStatus.TtlExpired) result.Add(reply.Address);
+                if (reply.Status == IPStatus.TtlExpired)
+                {
+                    result.Add(reply.Address);
+                    textBoxLog.Text += "--> " + reply.Address + " " + reply.RoundtripTime + "ms\r\n";
+                }
+                else if (reply.Status == IPStatus.TimedOut)
+                {
+                    textBoxLog.Text += "--> " + reply.Address + " " + "TimedOut\r\n";
+                }
                 //recurse to get the next address...
                 IEnumerable<IPAddress> tempResult;// = default(IEnumerable<IPAddress>);
                 tempResult = GetTraceRoute(hostNameOrAddress, ttl + 1);
@@ -110,62 +125,96 @@ namespace NetworkUtility.Trace
             //    form.Invoke(new ParameterizedThreadStart(TreceRouteStart), state);
             //else
             //{
-                route = null;
-                points.Clear();
-                routes.Routes.Clear();
-                traceMep.Overlays.Clear();
-                IpFromHost Host = new IpFromHost();
-                GeoDataByIPFromWeb Geo = new GeoDataByIPFromWeb();
-                Host.GetIpAddress(textBoxUrl.Text);
-                textBoxLog.Text = "";
+            textBoxLog.Text = "";
+            route = null;
+            points.Clear();
+            routes.Routes.Clear();
+            traceMep.Overlays.Clear();
+            IpFromHost Host = new IpFromHost();
+            GeoDataByIPFromWeb Geo = new GeoDataByIPFromWeb();
+            Host.GetIpAddress(textBoxUrl.Text);
+
+            if (Host.HostState)
+            {
 
                 IpAddresesTraceRoute = GetTraceRoute(Host.NormHost);
-                
+
+
                 GMapOverlay markersOverlay = new GMapOverlay("markers");
 
+                int index = 0;
                 foreach (var ip in IpAddresesTraceRoute)
                 {
+                    Thread.Sleep(600);
+                    index++;
                     GeoData GeoObj = Geo.GetData(ip.ToString());
 
-                    textBoxLog.Text += "\r\n-->" + ip;
+                    textBoxLog.Text += "\r\n-->" + ip + " #" + index;
 
                     if (GeoObj.InnerData.GeoInfo.Latitude != null && GeoObj.InnerData.GeoInfo.Latitude != null)
                     {
                         textBoxLog.Text += "\r\n" + GeoObj.InnerData.GeoInfo.Latitude
-                                                + "\r\n" + GeoObj.InnerData.GeoInfo.Longityde + "\r\n";
+                                           + "\r\n" + GeoObj.InnerData.GeoInfo.Longityde + "\r\n";
 
                         double lat = double.Parse(GeoObj.InnerData.GeoInfo.Latitude.Replace(".", ","));
                         double lng = double.Parse(GeoObj.InnerData.GeoInfo.Longityde.Replace(".", ","));
 
-                        //MainMap.Position = new PointLatLng(lat, lng);
+                        traceMep.Position = new PointLatLng(lat, lng);
 
-                        points.Add(new PointLatLng(lat, lng));
-                        GMarkerGoogle marker = new GMarkerGoogle
-                        (
-                            new PointLatLng(lat,lng),
-                            //GMarkerGoogleType.orange
-                            new Bitmap(@"none.png")
-                        );
-                        marker.ToolTipMode = MarkerTooltipMode.Always;
-                        marker.ToolTipText = ip.ToString() +
-                            "\r\n" + GeoObj.InnerData.GeoInfo.CountryName +
-                            "\r\n" + GeoObj.InnerData.GeoInfo.City +
-                            "\r\n" + GeoObj.InnerData.GeoInfo.isp;
-                        marker.ToolTip.Fill = Brushes.WhiteSmoke;
-                        marker.ToolTip.Foreground = Brushes.Black;
-                        marker.ToolTip.Stroke = Pens.Black;
-                        marker.ToolTip.TextPadding = new Size(10, 10);
-                        marker.ToolTip.Font = marker.ToolTip.Font = new Font("Arial", (float)7.5, FontStyle.Regular);
 
-                        markersOverlay.Markers.Add(marker);
+                        bool ifUnique = true;
+                        foreach (var point in markersOverlay.Markers)
+                        {
+                            if (point.Position.Lat == lat && point.Position.Lng == lng)
+                            {
+                                point.ToolTipText = ip + " #" + index + "\r\n" + point.ToolTipText;
+                                ifUnique = false;
+                                points.Add(new PointLatLng(lat, lng));
+                            }
+                            else
+                            {
+
+                            }
+                        }
+                        if (ifUnique)
+                        {
+                            points.Add(new PointLatLng(lat, lng));
+                            GMarkerGoogle marker = new GMarkerGoogle
+                                (
+                                new PointLatLng(lat, lng),
+                                //GMarkerGoogleType.orange
+                                new Bitmap(@"none.png")
+                                );
+                            marker.ToolTipMode = MarkerTooltipMode.Always;
+                            marker.ToolTipText = ip + " #" + index +
+                                                 "\r\n" + GeoObj.InnerData.GeoInfo.CountryName +
+                                                 "\r\n" + GeoObj.InnerData.GeoInfo.City +
+                                                 "\r\n" + GeoObj.InnerData.GeoInfo.isp;
+                            marker.ToolTip.Fill = Brushes.WhiteSmoke;
+                            marker.ToolTip.Foreground = Brushes.Black;
+                            marker.ToolTip.Stroke = Pens.Black;
+                            marker.ToolTip.TextPadding = new Size(10, 10);
+                            marker.ToolTip.Font =
+                                marker.ToolTip.Font = new Font("Arial", (float) 7.5, FontStyle.Regular);
+
+                            markersOverlay.Markers.Add(marker);
+                        }
+                    }
+                    else
+                    {
+                        textBoxLog.Text += "\r\nno geo data\r\n";
                     }
                     route = new GMapRoute(points, "Route");
                     route.Stroke = new Pen(Color.Brown, 2);
                     routes.Routes.Add(route);
                     traceMep.Overlays.Add(routes);
                     traceMep.Overlays.Add(markersOverlay);
-                //}           
-            }   
+                }
+            }
+            else
+            {
+                textBoxLog.Text = "Error! Invalid URL";
+            }
         }
 
         private void traceMep_MouseMove(object sender, MouseEventArgs e)

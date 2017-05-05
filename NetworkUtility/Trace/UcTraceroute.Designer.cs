@@ -30,16 +30,16 @@
         {
             this.traceMep = new GMap.NET.WindowsForms.GMapControl();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.textBoxLog = new System.Windows.Forms.TextBox();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.textBoxUrl = new System.Windows.Forms.TextBox();
-            this.Trace = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.textBoxLog = new System.Windows.Forms.TextBox();
+            this.Trace = new System.Windows.Forms.Button();
+            this.textBoxUrl = new System.Windows.Forms.TextBox();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // traceMep
@@ -64,7 +64,7 @@
             this.traceMep.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
             this.traceMep.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.traceMep.ShowTileGridLines = false;
-            this.traceMep.Size = new System.Drawing.Size(773, 700);
+            this.traceMep.Size = new System.Drawing.Size(710, 700);
             this.traceMep.TabIndex = 0;
             this.traceMep.Zoom = 0D;
             this.traceMep.MouseMove += new System.Windows.Forms.MouseEventHandler(this.traceMep_MouseMove);
@@ -76,8 +76,23 @@
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(8);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(227, 700);
+            this.panel1.Padding = new System.Windows.Forms.Padding(10);
+            this.panel1.Size = new System.Drawing.Size(290, 700);
             this.panel1.TabIndex = 1;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.textBoxLog);
+            this.groupBox1.Controls.Add(this.Trace);
+            this.groupBox1.Controls.Add(this.textBoxUrl);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox1.Location = new System.Drawing.Point(10, 10);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(8);
+            this.groupBox1.Size = new System.Drawing.Size(270, 680);
+            this.groupBox1.TabIndex = 0;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Fuuuu";
             // 
             // textBoxLog
             // 
@@ -86,8 +101,30 @@
             this.textBoxLog.Multiline = true;
             this.textBoxLog.Name = "textBoxLog";
             this.textBoxLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxLog.Size = new System.Drawing.Size(211, 628);
+            this.textBoxLog.Size = new System.Drawing.Size(254, 608);
             this.textBoxLog.TabIndex = 1;
+            // 
+            // Trace
+            // 
+            this.Trace.BackColor = System.Drawing.Color.LightBlue;
+            this.Trace.Dock = System.Windows.Forms.DockStyle.Top;
+            this.Trace.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Trace.Location = new System.Drawing.Point(8, 41);
+            this.Trace.Name = "Trace";
+            this.Trace.Size = new System.Drawing.Size(254, 23);
+            this.Trace.TabIndex = 1;
+            this.Trace.Text = "Trace";
+            this.Trace.UseVisualStyleBackColor = false;
+            this.Trace.Click += new System.EventHandler(this.Trace_Click);
+            // 
+            // textBoxUrl
+            // 
+            this.textBoxUrl.Dock = System.Windows.Forms.DockStyle.Top;
+            this.textBoxUrl.Location = new System.Drawing.Point(8, 21);
+            this.textBoxUrl.Name = "textBoxUrl";
+            this.textBoxUrl.Size = new System.Drawing.Size(254, 20);
+            this.textBoxUrl.TabIndex = 0;
+            this.textBoxUrl.Text = "google.com";
             // 
             // panel2
             // 
@@ -95,19 +132,10 @@
             this.panel2.Controls.Add(this.label1);
             this.panel2.Controls.Add(this.traceMep);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(227, 0);
+            this.panel2.Location = new System.Drawing.Point(290, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(773, 700);
+            this.panel2.Size = new System.Drawing.Size(710, 700);
             this.panel2.TabIndex = 2;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(4, 4);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(45, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Latitude";
             // 
             // label2
             // 
@@ -118,40 +146,14 @@
             this.label2.TabIndex = 2;
             this.label2.Text = "Longityde";
             // 
-            // textBoxUrl
+            // label1
             // 
-            this.textBoxUrl.Dock = System.Windows.Forms.DockStyle.Top;
-            this.textBoxUrl.Location = new System.Drawing.Point(8, 21);
-            this.textBoxUrl.Name = "textBoxUrl";
-            this.textBoxUrl.Size = new System.Drawing.Size(211, 20);
-            this.textBoxUrl.TabIndex = 0;
-            // 
-            // Trace
-            // 
-            this.Trace.BackColor = System.Drawing.Color.LightBlue;
-            this.Trace.Dock = System.Windows.Forms.DockStyle.Top;
-            this.Trace.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Trace.Location = new System.Drawing.Point(8, 41);
-            this.Trace.Name = "Trace";
-            this.Trace.Size = new System.Drawing.Size(211, 23);
-            this.Trace.TabIndex = 1;
-            this.Trace.Text = "button1";
-            this.Trace.UseVisualStyleBackColor = false;
-            this.Trace.Click += new System.EventHandler(this.Trace_Click);
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.textBoxLog);
-            this.groupBox1.Controls.Add(this.Trace);
-            this.groupBox1.Controls.Add(this.textBoxUrl);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox1.Location = new System.Drawing.Point(0, 0);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(8);
-            this.groupBox1.Size = new System.Drawing.Size(227, 700);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Fuuuu";
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(4, 4);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(45, 13);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Latitude";
             // 
             // UcTraceRoute
             // 
@@ -162,10 +164,10 @@
             this.Name = "UcTraceRoute";
             this.Size = new System.Drawing.Size(1000, 700);
             this.panel1.ResumeLayout(false);
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
 
         }
