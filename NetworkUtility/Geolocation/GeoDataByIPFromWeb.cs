@@ -14,12 +14,21 @@ namespace NetworkUtility
             GeoData objGeoData;
             using (WebClient webClient = new WebClient())   //створення нового веб клієнта
             {
-                using (Stream webSream = webClient.OpenRead("https://tools.keycdn.com/geo.json?host=" + ip))//створення і відкриття потоку на читання
+                Stream webSream = null;
+                try
+                {
+                    webSream = webClient.OpenRead("https://tools.keycdn.com/geo.json?host=" + ip);
+                }
+                catch (Exception e)
+                {
+
+                }
+                if (webSream != null)
                 {
                     StreamReader stringFromStream = new StreamReader(webSream);                             //читання потоку як стрічка
                     objGeoData = JsonConvert.DeserializeObject<GeoData>(stringFromStream.ReadToEnd());      //парсинг стрічки json в object
-                    //WebSream.Close();
-                }
+                    webSream.Close();
+                }else{ objGeoData = null; }
             }                                                                            
             return objGeoData;      //повернення екземпляру класу з геоданими
         }
