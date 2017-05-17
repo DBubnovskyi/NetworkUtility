@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
@@ -33,6 +34,7 @@ namespace NetworkUtility
             return objGeoData;      //повернення екземпляру класу з геоданими
         }
     }
+
 
     [DataContract]
     class GeoData

@@ -49,12 +49,17 @@ namespace NetworkUtility.Trace
             traceMep.SetPositionByKeywords("Paris, France");
             traceMep.ShowCenter = false;
             traceMep.Zoom = 9;
+
             GeoDataByIPFromWeb localGeoObj = new GeoDataByIPFromWeb();
             GeoData localGeo = localGeoObj.GetData("");
-            double lat = double.Parse(localGeo.InnerData.GeoInfo.Latitude.Replace(".", ","));
-            double lng = double.Parse(localGeo.InnerData.GeoInfo.Longityde.Replace(".", ","));
+
             if (localGeo.InnerData.GeoInfo.Latitude != null && localGeo.InnerData.GeoInfo.Longityde != null)
+            {
+                double lat = double.Parse(localGeo.InnerData.GeoInfo.Latitude.Replace(".", ","));
+                double lng = double.Parse(localGeo.InnerData.GeoInfo.Longityde.Replace(".", ","));
                 traceMep.Position = new PointLatLng(lat, lng);
+            }
+
             traceMep.MapProvider = GoogleMapProvider.Instance;
             traceMep.DragButton = MouseButtons.Left;
             traceMep.IgnoreMarkerOnMouseWheel = true;
@@ -201,8 +206,7 @@ namespace NetworkUtility.Trace
                             marker.ToolTip.Foreground = Brushes.Black;
                             marker.ToolTip.Stroke = Pens.Black;
                             marker.ToolTip.TextPadding = new Size(10, 10);
-                            marker.ToolTip.Font =
-                                marker.ToolTip.Font = new Font("Arial", (float) 7.5, FontStyle.Regular);
+                            marker.ToolTip.Font = new Font("Arial", (float) 7.5, FontStyle.Regular);
 
                             markersOverlay.Markers.Add(marker);
                         }
